@@ -25,8 +25,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: []()
-- Live Site URL: []()
+- Solution URL: [https://www.frontendmentor.io/solutions/calculator-using-react-Uhi7l6YeHw](https://www.frontendmentor.io/solutions/calculator-using-react-Uhi7l6YeHw)
+- Live Site URL: [https://leo-jcq.github.io/calculator-app/](https://leo-jcq.github.io/calculator-app/)
 
 ## My process
 
