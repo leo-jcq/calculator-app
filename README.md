@@ -35,7 +35,9 @@ Users should be able to:
 - CSS custom properties
 - Flexbox
 - CSS Grid
-- React
+- [React](https://reactjs.org/) - JS library
+
+Deploy with github actions
 
 ### What I learned
 
