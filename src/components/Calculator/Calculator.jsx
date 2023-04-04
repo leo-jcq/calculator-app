@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Calculator.scss';
 
 /** @type {RegExp} A regular expression to match a compute */
-const computeRegex = /(\d+)([+\-*/])(\d+)$/;
+const computeRegex = /(\d+)([+\-*/]?)(\d+)$/;
 
 /**
  * Replace the dot with a comma and the multiplication sign with an x
@@ -24,15 +24,20 @@ function screenToEval(compute) {
     return compute.replace(',', '.').replace('x', '*');
 }
 
+const invalid = 'Invalid expression';
+const error = 'Error';
+
 const Calculator = () => {
     const [screen, setScreen] = useState('');
 
     const handleOperatorClick = (e) => {
-        setScreen(evaltoScreen(screen + (e.target.value || e.target.innerHTML)));
+        const newScreen = screen == invalid || screen == error ? e.target.innerHTML : screen.slice(0, screen.length - 1)
+        setScreen(newScreen);
     };
 
     const handleDel = () => {
-        setScreen(screen.slice(0, screen.length - 1));
+        const newScreen = screen == invalid || screen == error ? '' : screen.slice(0, screen.length - 1);
+        setScreen(newScreen);
     };
 
     const handleReset = () => {
@@ -44,7 +49,7 @@ const Calculator = () => {
         const compute = screenToEval(screen);
         if (!computeRegex.test(compute)) {
             // If not, display an error
-            setScreen('Invalid expression');
+            setScreen(invalid);
             return;
         }
         try {
@@ -54,7 +59,7 @@ const Calculator = () => {
             setScreen(evaltoScreen(resultString));
         } catch (e) {
             // If an error occurs, display an error
-            setScreen('Error');
+            setScreen(error);
         }
     };
 
