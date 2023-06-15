@@ -1,53 +1,33 @@
 import React, { useState } from 'react';
+import computeRegExp from '../../constants/computeRegExp';
+import { error, invalid } from '../../constants/invalids';
+import evaltoScreen from '../../helpers/evaltoScreen';
+import screenToEval from '../../helpers/screenToEval';
 import './Calculator.scss';
-
-/** @type {RegExp} A regular expression to match a compute */
-const computeRegex = /(\d+)([+\-*/]?)(\d+)$/;
-
-/**
- * Replace the dot with a comma and the multiplication sign with an x
- *
- * @param {string} compute The string to be converted
- * @return {string} The converted string
- */
-function evaltoScreen(compute) {
-    return compute.replace('.', ',').replace('*', 'x');
-}
-
-/**
- * Replace the comma with a dot and the multiplication sign with an x
- *
- * @param {string} compute The string to be converted
- * @return {string} The converted string
- */
-function screenToEval(compute) {
-    return compute.replace(',', '.').replace('x', '*');
-}
-
-const invalid = 'Invalid expression';
-const error = 'Error';
 
 const Calculator = () => {
     const [screen, setScreen] = useState('');
 
-    const handleOperatorClick = (e) => {
-        const newScreen = screen == invalid || screen == error ? e.target.innerHTML : screen.slice(0, screen.length - 1)
-        setScreen(newScreen);
-    };
+    const handleOperatorClick = (e) =>
+        setScreen((prevScreen) =>
+            prevScreen === invalid || prevScreen === error || prevScreen == Infinity
+                ? e.target.innerHTML
+                : prevScreen + e.target.innerHTML
+        );
 
-    const handleDel = () => {
-        const newScreen = screen == invalid || screen == error ? '' : screen.slice(0, screen.length - 1);
-        setScreen(newScreen);
-    };
+    const handleDel = () =>
+        setScreen((prevScreen) =>
+            prevScreen === invalid || prevScreen === error || prevScreen == Infinity
+                ? ''
+                : prevScreen.slice(0, screen.length - 1)
+        );
 
-    const handleReset = () => {
-        setScreen('');
-    };
+    const handleReset = () => setScreen('');
 
     const handleEqual = () => {
         // Verify that the screen is a compute
         const compute = screenToEval(screen);
-        if (!computeRegex.test(compute)) {
+        if (!computeRegExp.test(compute)) {
             // If not, display an error
             setScreen(invalid);
             return;
@@ -114,7 +94,7 @@ const Calculator = () => {
                     <button className="button" onClick={handleOperatorClick}>
                         /
                     </button>
-                    <button className="button" value="*" onClick={handleOperatorClick}>
+                    <button className="button" onClick={handleOperatorClick}>
                         x
                     </button>
                     <button className="button reset" onClick={handleReset}>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTheme, useThemeUpdate } from '../../contexts/ThemeContext';
 import './Top.scss';
 
@@ -6,25 +6,21 @@ const Top = () => {
     const theme = useTheme();
     const themeUpdate = useThemeUpdate();
 
-    const circlePosition = useCallback(
-        [
-            {
-                left: '6px'
-            },
-            {
-                left: '50%',
-                translate: '-50%'
-            },
-            {
-                left: 'calc(100% - 6px)',
-                translate: '-100%'
-            }
-        ],
-        [theme]
-    );
+    const circlePosition = [
+        {
+            left: '6px'
+        },
+        {
+            left: '50%',
+            translate: '-50%'
+        },
+        {
+            left: 'calc(100% - 6px)',
+            translate: '-100%'
+        }
+    ];
 
     const handleThemeChange = (e) => {
-        console.log(parseInt(e.target.value));
         themeUpdate(parseInt(e.target.value));
     };
 
